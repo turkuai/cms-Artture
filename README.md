@@ -19,11 +19,11 @@ https://cmsartu.netlify.app/
 
 6 - Completed
 
-7 - doing
+7 - Completed
 
-8 - doing
+8 - Completed
 
-9 - doing
+9 - Completed
 
 10 - doing
 
