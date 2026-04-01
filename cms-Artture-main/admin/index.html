@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMS Admin</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+.container {
+    width: 90%;
+    margin: auto;
+}
+header {
+    background: #ddd;
+    padding: 20px 0;
+    border-bottom: 2px solid #bbb;
+}
+.top-bar {
+    text-align: right;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.logo {
+    background: #ccc;
+    padding: 20px;
+    font-weight: bold;
+}
+.nav a {
+    color: blue;
+    text-decoration: underline;
+}
+main {
+    margin: 20px 0;
+}
+.article {
+    display: flex;
+    justify-content: space-between;
+    background: #eee;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+.article-text {
+    width: 65%;
+}
+.image-placeholder {
+    width: 30%;
+    background: #ddd;
+    border: 1px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+}
+footer {
+    background: #ddd;
+    padding: 20px 0;
+    border-top: 2px solid #bbb;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+.footer-links a {
+    display: block;
+    color: blue;
+    text-decoration: underline;
+    margin-bottom: 5px;
+}
+.footer-left {
+    max-width: 300px;
+}
+.admin-panel {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+input, textarea {
+    width: 100%;
+    margin: 5px 0;
+}
+button { margin-top:10px; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="top-bar">http://host:port/cms/admin</div>
+        <div class="nav">
+            <div class="logo">LOGO</div>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+<div class="admin-panel">
+    <h3>Muokkaa sisältöä</h3>
+    <input id="title" placeholder="Otsikko">
+    <textarea id="content" placeholder="Teksti"></textarea>
+    <input id="image" placeholder="Kuvan URL">
+    <button onclick="saveArticle()">Tallenna</button>
+</div>
+
+<div id="articles"></div>
+
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <div class="footer-left">
+            <h3>Your company's name</h3>
+            <p>TEXT</p>
+            <p>© 2024, Company's name, All rights reserved.</p>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Facebook</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+let articles = [
+    {
+        title: "A title for your first article",
+        content: "Lorem ipsum dolor sit amet...",
+        image: ""
+    }
+];
+
+let editIndex = -1;
+
+function render() {
+    const container = document.getElementById('articles');
+    container.innerHTML = '';
+
+    articles.forEach((a, i) => {
+        container.innerHTML += `
+        <div class="article">
+            <div class="article-text">
+                <h2>${a.title}</h2>
+                <p>${a.content}</p>
+                <button onclick="edit(${i})">Muokkaa</button>
+            </div>
+            <div class="image-placeholder">
+                ${a.image ? `<img src="${a.image}" style="max-width:100%">` : 'Image'}
+            </div>
+        </div>`;
+    });
+}
+
+function edit(i) {
+    const a = articles[i];
+    document.getElementById('title').value = a.title;
+    document.getElementById('content').value = a.content;
+    document.getElementById('image').value = a.image;
+    editIndex = i;
+}
+
+function saveArticle() {
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const image = document.getElementById('image').value;
+
+    if (editIndex === -1) {
+        articles.push({ title, content, image });
+    } else {
+        articles[editIndex] = { title, content, image };
+        editIndex = -1;
+    }
+
+    document.getElementById('title').value = '';
+    document.getElementById('content').value = '';
+    document.getElementById('image').value = '';
+
+    render();
+}
+
+render();
+</script>
+
+</body>
+</html>
